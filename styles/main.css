@@ -1920,7 +1920,12 @@ code::-webkit-scrollbar-thumb:hover {
           background-color: #f3f3f3!important;
         }
          
-      .gt-post-content a:hover {
+      .post-content h1, .post-content h2, .post-content h3, .post-content h4, .post-content h5, .post-content h6 {
+    display: block !important;
+    background: transparent !important;
+}
+
+.gt-post-content a:hover {
     text-decoration: underline!important;
 }
 
