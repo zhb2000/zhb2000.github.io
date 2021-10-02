@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://zhb2000.github.io</id>
     <title>zhb2000</title>
-    <updated>2021-03-12T04:36:16.899Z</updated>
+    <updated>2021-10-02T09:37:07.167Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://zhb2000.github.io"/>
     <link rel="self" href="https://zhb2000.github.io/atom.xml"/>
@@ -10,6 +10,49 @@
     <logo>https://zhb2000.github.io/images/avatar.png</logo>
     <icon>https://zhb2000.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, zhb2000</rights>
+    <entry>
+        <title type="html"><![CDATA[C++默认参数静态绑定]]></title>
+        <id>https://zhb2000.github.io/post/cpp-default-arguments/</id>
+        <link href="https://zhb2000.github.io/post/cpp-default-arguments/">
+        </link>
+        <updated>2021-10-02T09:32:39.000Z</updated>
+        <content type="html"><![CDATA[<p>先来看这样一段代码</p>
+<pre><code class="language-cpp">class Base
+{
+public:
+    virtual void print(int a = 1) const
+    {
+        std::cout &lt;&lt; &quot;Base &quot; &lt;&lt; a &lt;&lt; &quot;\n&quot;;
+    }
+};
+
+class Derived : public Base
+{
+public:
+    virtual void print(int a = 2) const override
+    {
+        std::cout &lt;&lt; &quot;Derived &quot; &lt;&lt; a &lt;&lt; &quot;\n&quot;;
+    }
+};
+</code></pre>
+<p>请问：若按如下方式调用，会输出什么？</p>
+<pre><code class="language-cpp">Base *p = new Derived();
+p-&gt;print();
+</code></pre>
+<p>答案：输出 <code>Derived 1</code>（而非 <code>Base 1</code> 或 <code>Derived 2</code>）。</p>
+<p>原因：</p>
+<ul>
+<li><strong>虚函数动态绑定</strong>，在<strong>运行时</strong>根据对象的实际类型决定调用哪个函数，因此这里调用的函数为 <code>Base::print</code>。</li>
+<li><strong>默认实参静态绑定</strong>，在<strong>编译期</strong>根据指针的声明类型决定默认实参的值，因此这里的 <code>p-&gt;print()</code> 相当于 <code>p-&gt;print(1)</code>。</li>
+</ul>
+<p>因此，重写基类函数时不要重新定义函数的默认参数，以避免出现上文中的坑。</p>
+<p>参考资料：</p>
+<ol>
+<li><a href="https://blog.ycshao.com/2017/11/25/effective-c-item-37-never-redefine-a-functions-inherited-default-parameter-value/">Effective C++ item 37: Never Redefine a Function's Inherited Default Parameter Value</a></li>
+<li><a href="https://zh.cppreference.com/w/cpp/language/default_arguments">默认实参 - cppreference.com</a></li>
+</ol>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Edit Step Ladders - UVA 10029]]></title>
         <id>https://zhb2000.github.io/post/UVA-10029/</id>
